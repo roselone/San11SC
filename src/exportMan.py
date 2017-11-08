@@ -72,9 +72,12 @@ def parseKingdom(playerNum, heroNum, wb):
     ws = wb.get_sheet_by_name('source')
     heroDic = readHero(wb)
     kingdoms = []
+    citys = []
     for i in range(1, playerNum+1):
         kingID = findByName(ws.cell(row = 1, column = i).value, heroDic)
-        kingdom = Kingdom(kingID,  findCityID(ws.cell(row = 2, column = i).value), findHerosID(i, heroNum, wb, kingID, heroDic))
+        cid = findCityID(ws.cell(row = 2, column = i).value)
+        citys.append(cid)
+        kingdom = Kingdom(kingID,  cid, findHerosID(i, heroNum, wb, kingID, heroDic))
         kingdoms.append(kingdom)
     return kingdoms
 
