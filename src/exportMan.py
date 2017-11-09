@@ -7,6 +7,9 @@ from langconv import *
 from conf import *
 from kingdom import *
 import sys
+import random
+from ScenEditor import *
+from functools import reduce
 
 class Hero(object):
     def __init__(self, hid, name, ability):
@@ -68,6 +71,16 @@ def findCityID(cityName):
         ret = int(input('>'))
     return ret
 
+def randomHero(heroDic, kingdoms):
+    heros = []
+    for kingdom in kingdoms:
+        heros.extend(kingdom.heroList)
+        heros.append(kingdom.king)
+    for i in range(670):
+        if i not in heros:
+            kingdoms[random.randint(0,7)].heroList.append(i)
+    return kingdoms
+
 def parseKingdom(playerNum, heroNum, wb):
     ws = wb.get_sheet_by_name('source')
     heroDic = readHero(wb)
@@ -79,6 +92,7 @@ def parseKingdom(playerNum, heroNum, wb):
         citys.append(cid)
         kingdom = Kingdom(kingID,  cid, findHerosID(i, heroNum, wb, kingID, heroDic))
         kingdoms.append(kingdom)
+    kingdoms = randomHero(heroDic, kingdoms)
     return kingdoms
 
 def main(playerNum, heroNum, inFile):
@@ -89,6 +103,7 @@ def main(playerNum, heroNum, inFile):
         f.write(str(k))
         f.write('\n')
     f.close()
+    genScen(kingdoms)
  
 if __name__ == "__main__":
     main(int(sys.argv[1]), int(sys.argv[2]), sys.argv[3])
