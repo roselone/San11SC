@@ -17,7 +17,7 @@ horseDelta = 57
 def addKing(bs, kingdoms):
     for i in range(len(kingdoms)):
         kingdom = kingdoms[i]
-        bs[oneBase + oneDelta * kingdom.capital] = 0x00
+        bs[oneBase + oneDelta * kingdom.capital] = i
         bs[heroBase + heroDelta * kingdom.king] = i
         bs[heroBase + heroDelta * kingdom.king + 1] = kingdom.capital
         bs[heroBase + heroDelta * kingdom.king + 2] = 0x00
@@ -26,8 +26,7 @@ def addKing(bs, kingdoms):
         bs[heroBase + heroDelta * kingdom.king + 5] = 0x00
         bs[kingBase + kingDelta * i] = kingdom.king % 0x100
         bs[kingBase + kingDelta * i + 1] = int(kingdom.king / 0x100)
-        if i != 0:
-            bs[kingBase + kingDelta * i + 53] = 0x00
+        bs[kingBase + kingDelta * i + 53] = i
         bs[armyBase + armyDelta * i] = i
         bs[armyBase + armyDelta * i + 2] = kingdom.king % 0x100
         bs[armyBase + armyDelta * i + 3] = int(kingdom.king / 0x100)

@@ -72,13 +72,24 @@ def findCityID(cityName):
     return ret
 
 def randomHero(heroDic, kingdoms):
-    heros = []
-    for kingdom in kingdoms:
-        heros.extend(kingdom.heroList)
-        heros.append(kingdom.king)
-    for i in range(670):
-        if i not in heros:
-            kingdoms[random.randint(0,7)].heroList.append(i)
+    while True:
+        heros = []
+        for kingdom in kingdoms:
+            heros.extend(kingdom.heroList)
+            heros.append(kingdom.king)
+            kingdom.tmp = []
+        for i in range(670):
+            if i not in heros:
+                kingdoms[random.randint(0,7)].tmp.append(i)
+        minh = 100
+        maxh = 0
+        for kingdom in kingdoms:
+            minh = min(minh, len(kingdom.tmp))
+            maxh = max(maxh, len(kingdom.tmp))
+        if maxh - minh < 15:
+            for kingdom in kingdoms:
+                kingdom.heroList.extend(kingdom.tmp)
+            break
     return kingdoms
 
 def parseKingdom(playerNum, heroNum, wb):
