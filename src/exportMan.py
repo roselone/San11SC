@@ -12,27 +12,40 @@ from ScenEditor import *
 from functools import reduce
 
 class Hero(object):
-    def __init__(self, hid, name, ability):
-        self.hid = hid
-        self.name = name
-        self.ability = ability
+    def __init__(self, data):
+        self.hid     = int(data[0])
+        self.name    = data[1]
+        self.defense = int(data[2])
+        self.attack  = int(data[3])
+        self.IQ      = int(data[4])
+        self.EQ      = int(data[5])
+        self.charm   = int(data[6])
+        self.pikeman     = data[8]
+        self.halberdier  = data[9]
+        self.crossbowman = data[10]
+        self.cavalryman  = data[11]
+        self.weapon      = data[12]
+        self.navy        = data[13]
+        self.ability = data[14]
+        self.baseEvaluate = self.defense + self.attack + self.IQ
     def __str__(self):
         return str(self.mid) + ' ' + self.name + ' ' + self.ability
     def __repr__(self):
         return self.__str__()
 
-def readHero(wb):
+def readHero(fname):
     heroDic = {}
-    ws = wb.get_sheet_by_name('全武将')
-    for i in range(2,672):
-        hid = int(ws['A'+str(i)].value)
-        name = ws['B'+str(i)].value
-        ability = ws['O'+str(i)].value
-        heroDic[int(ws['A'+str(i)].value)] = Hero(hid, name, ability)
+    f = open(fname, 'r')
+    heros = f.read().split('\n')
+    for i in heros[:-1]:
+        heroData = list(i.split(','))
+        hid = int(heroData[0])
+        heroDic[hid] = Hero(heroData)
     return heroDic
 
 def findByName(name, heroDic):
     ret = -1
+    name = name.strip()
     cname = Converter('zh-hant').convert(name)
     for _, hero in heroDic.items():
         if name == hero.name:
@@ -94,7 +107,7 @@ def randomHero(heroDic, kingdoms):
 
 def parseKingdom(playerNum, heroNum, wb):
     ws = wb.get_sheet_by_name('source')
-    heroDic = readHero(wb)
+    heroDic = readHero('hero.csv')
     kingdoms = []
     citys = []
     for i in range(1, playerNum+1):
