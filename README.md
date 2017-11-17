@@ -1,7 +1,7 @@
 # San11SC
 San11 Scenario Creator 
 
-The tool helps to create San11 Scenario for multiy players. Each player chooses one city as capital and some heros to fight with others.
+The tool helps to create San11 Scenario for multi-players. Each player chooses one city as capital and some heros to fight with others.
 
 # Usage
 ### 1. Install Python (>=3.5)
