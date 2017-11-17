@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import openpyxl
 from openpyxl import *
 from langconv import *
 from conf import *
 from kingdom import *
 import sys
 import random
+import codecs
 from ScenEditor import *
 from functools import reduce
 
@@ -35,7 +35,7 @@ class Hero(object):
 
 def readHero(fname):
     heroDic = {}
-    f = open(fname, 'r')
+    f = codecs.open(fname, 'r', 'utf-8')
     heros = f.read().split('\n')
     for i in heros[:-1]:
         heroData = list(i.split(','))
