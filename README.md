@@ -47,4 +47,4 @@ The sheet looks like the table below. The first line is the kings of each kingdo
 $ chmod a+x exportMan.py
 $ ./exportMan.py n m configure-file-name
 ```
-> **n** is the number of players.  **m** is the number of heros for each player.
+> **n** is the number of players.  **m** is the number of heros for each player(include the king).
