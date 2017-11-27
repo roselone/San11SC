@@ -105,7 +105,7 @@ def randomHero(heroDic, kingdoms):
             break
     return kingdoms
 
-def parseKingdom(playerNum, heroNum, wb):
+def parseKingdom(playerNum, heroNum, wb, default):
     ws = wb.get_sheet_by_name('source')
     heroDic = readHero('hero.csv')
     kingdoms = []
@@ -116,12 +116,13 @@ def parseKingdom(playerNum, heroNum, wb):
         citys.append(cid)
         kingdom = Kingdom(kingID,  cid, findHerosID(i, heroNum, wb, kingID, heroDic))
         kingdoms.append(kingdom)
-    kingdoms = randomHero(heroDic, kingdoms)
+    if default:
+        kingdoms = randomHero(heroDic, kingdoms)
     return kingdoms
 
-def main(playerNum, heroNum, inFile):
+def main(playerNum, heroNum, inFile, default):
     wb = load_workbook(inFile)
-    kingdoms = parseKingdom(playerNum, heroNum, wb)
+    kingdoms = parseKingdom(playerNum, heroNum, wb, default)
     f = open('output.txt', 'w')
     for k in kingdoms:
         f.write(str(k))
@@ -130,5 +131,8 @@ def main(playerNum, heroNum, inFile):
     genScen(kingdoms)
  
 if __name__ == "__main__":
-    main(int(sys.argv[1]), int(sys.argv[2]), sys.argv[3])
+    default = 1
+    if len(sys.argv) == 5 and sys.argv[4] == 'only':
+        default = 0
+    main(int(sys.argv[1]), int(sys.argv[2]), sys.argv[3], default)
 
