@@ -83,6 +83,28 @@ def randomHero(heroDic, kingdoms):
             break
     return kingdoms
 
+def averageHero(heroDic, kingdoms):
+    restHero = []
+    tmpHero = []
+    heros = []
+    for kingdom in kingdoms:
+        heros.extend(kingdom.heroList)
+        heros.append(kingdom.king)
+    for i in range(670):
+        if i not in heros:
+            if heroDic[i].halberdier == 'Ａ' or heroDic[i].halberdier == 'Ｓ':
+                restHero.append(i)
+            else:
+                tmpHero.append(i)
+    tmpHero = random.sample(tmpHero, len(tmpHero))
+    restHero = random.sample(restHero, len(restHero))
+    restHero.extend(tmpHero)
+    cnt = 0
+    for i in restHero:
+        kingdoms[cnt].heroList.append(i)
+        cnt = (cnt+1) % len(kingdoms)
+    return kingdoms
+
 def parseKingdom(playerNum, heroNum, wb, default):
     ws = wb.get_sheet_by_name('source')
     heroDic = readHero('hero.csv')
@@ -96,6 +118,8 @@ def parseKingdom(playerNum, heroNum, wb, default):
         kingdoms.append(kingdom)
     if default:
         kingdoms = randomHero(heroDic, kingdoms)
+    else:
+        kingdoms = averageHero(heroDic, kingdoms)
     return kingdoms
 
 def main(playerNum, heroNum, inFile, default):
@@ -110,7 +134,6 @@ def main(playerNum, heroNum, inFile, default):
  
 if __name__ == "__main__":
     default = 1
-    if len(sys.argv) == 5 and sys.argv[4] == 'only':
+    if len(sys.argv) == 5 and sys.argv[4] == 'ave':
         default = 0
     main(int(sys.argv[1]), int(sys.argv[2]), sys.argv[3], default)
-
