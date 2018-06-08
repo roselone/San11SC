@@ -16,7 +16,7 @@ class Hero(object):
         self.cavalryman  = data[11]
         self.weapon      = data[12]
         self.navy        = data[13]
-        self.ability = data[14]
+        self.ability     = data[14]
         self.baseEvaluate = self.defense + self.attack + self.IQ
     def __str__(self):
         return str(self.hid) + ' ' + self.name + ' ' + self.ability
